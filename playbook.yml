@@ -1,0 +1,39 @@
+---
+- name: Configure Ubuntu node
+  hosts: ubuntu_slave
+  become: yes
+
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install nginx on Ubuntu
+      apt:
+        name: nginx
+        state: present
+
+    - name: Start nginx service
+      service:
+        name: nginx
+        state: started
+
+- name: Configure CentOS node
+  hosts: centos_slave
+  become: yes
+
+  tasks:
+    - name: Install EPEL repository on CentOS
+      yum:
+        name: epel-release
+        state: present
+
+    - name: Install nginx on CentOS
+      yum:
+        name: nginx
+        state: present
+
+    - name: Start nginx service
+      service:
+        name: nginx
+        state: started
